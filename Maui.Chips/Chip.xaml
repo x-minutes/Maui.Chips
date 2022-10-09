@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Frame xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+        xmlns:d="http://schemas.microsoft.com/dotnet/2021/maui/design"
+        xmlns:controls="clr-namespace:Maui.Chips"
+       xmlns:converters="clr-namespace:Maui.Chips.Converters"
+        x:Class="Maui.Chips.Chip"
+        HasShadow="False"
+        CornerRadius="15"
+        VerticalOptions="Center"
+        HorizontalOptions="Center"
+        Margin="0, 0"
+        x:DataType="controls:Chip"
+        x:Name="chipRoot">
+    <Frame.Resources>
+        <ResourceDictionary>
+            <converters:HasValueConverter x:Key="HasValueConverter" />
+            <converters:AnyTrueMultiConverter x:Key="AnyTrueMultiConverter" />
+            <converters:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </Frame.Resources>
+
+    <Frame.GestureRecognizers>
+        <TapGestureRecognizer Tapped="Clicked" />
+    </Frame.GestureRecognizers>
+
+    <Frame.Content>
+        <HorizontalStackLayout>
+            <HorizontalStackLayout VerticalOptions="Center">
+
+                <StackLayout VerticalOptions="Center">
+                    <Image
+                        Source="{Binding Image, Source={x:Reference chipRoot}}"
+                        d:IsVisible="False"
+                        IsVisible="{Binding Image, Source={x:Reference chipRoot}, Converter={StaticResource HasValueConverter}}"
+                        Style="{Binding ImageStyle, Source={x:Reference chipRoot}}" />
+                    <Label
+                        Text="{Binding FontImageText, Source={x:Reference chipRoot}}"
+                        d:IsVisible="False"
+                        IsVisible="{Binding FontImageText, Source={x:Reference chipRoot}, Converter={StaticResource HasValueConverter}}"
+                        Style="{Binding FontImageStyle, Source={x:Reference chipRoot}}" />
+                </StackLayout>
+
+                <Label
+                    VerticalOptions="Center"
+                    d:Text="Chip"
+                    Text="{Binding Text, Source={x:Reference chipRoot}}"
+                    FormattedText="{Binding FormattedText, Source={x:Reference chipRoot}}"
+                    TextColor="{Binding TextColor, Source={x:Reference chipRoot}}"
+                    Style="{Binding TextStyle, Source={x:Reference chipRoot}}"
+                    MaxLines="1"
+                    LineBreakMode="{Binding LineBreakMode, Source={x:Reference chipRoot}}"
+                    VerticalTextAlignment="Center"
+>
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="Clicked" />
+                    </Label.GestureRecognizers>
+                    <Label.IsVisible>
+                        <MultiBinding Converter="{StaticResource AnyTrueMultiConverter}">
+                            <Binding Path="Text" Converter="{StaticResource HasValueConverter}" Source="{x:Reference chipRoot}" />
+                            <Binding Path="FormattedText" Converter="{StaticResource HasValueConverter}" Source="{x:Reference chipRoot}" />
+                        </MultiBinding>
+                    </Label.IsVisible>
+                </Label>
+            </HorizontalStackLayout>
+
+            <VerticalStackLayout VerticalOptions="Center">
+                <ImageButton
+                    Source="{Binding CloseButtonImage, Source={x:Reference chipRoot}}"
+                    d:IsVisible="False"
+                    IsVisible="{Binding CloseButtonImage, Source={x:Reference chipRoot}, Converter={StaticResource HasValueConverter}}"
+                    Style="{Binding CloseButtonImageStyle, Source={x:Reference chipRoot}}"
+                    Clicked="CloseButton_Clicked" />
+                <Button
+                    Text="{Binding CloseButtonFontImageText, Source={x:Reference chipRoot}}"
+                    d:IsVisible="False"
+                    IsVisible="{Binding CloseButtonFontImageText, Source={x:Reference chipRoot}, Converter={StaticResource HasValueConverter}}"
+                    Style="{Binding CloseButtonFontImageStyle, Source={x:Reference chipRoot}}"
+                    BackgroundColor="Transparent"
+                    Clicked="CloseButton_Clicked" />
+            </VerticalStackLayout>
+        </HorizontalStackLayout>
+    </Frame.Content>
+</Frame>
