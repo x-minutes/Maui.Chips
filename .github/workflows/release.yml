@@ -10,7 +10,6 @@ env:
 jobs:
   package:
     name: Build and Upload Package
-    needs: [windows_build]
     runs-on: windows-latest
     steps:
       - name: Checkout Code
