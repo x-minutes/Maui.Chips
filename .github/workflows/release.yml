@@ -18,20 +18,6 @@ jobs:
         working-directory: Maui.Chips
         run: |
           dotnet build -c Release
-      - name: Get Release Version
-        id: get_version
-        uses: greenygh0st/net-proj-release-version@v2
-        with:
-          PROJ_FILE: ./Maui.Chips/Maui.Chips.csproj
-      - name: Release
-        uses: softprops/action-gh-release@v1
-        with:
-          name: Release ${{ steps.get_version.outputs.RELEASE_VERSION }}
-          tag_name: v${{ steps.get_version.outputs.RELEASE_VERSION }}
-          draft: false
-          prerelease: false
-          files: |
-            ./Maui.Chips/bin/Release/*.nupkg
       - name: Push to Nuget.org
         working-directory: Maui.Chips
         run: dotnet nuget push "**/*.nupkg" --api-key ${{ secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
